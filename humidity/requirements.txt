@@ -1,0 +1,4 @@
+smbus2
+paho-mqtt
+python-dateutil
+schedule

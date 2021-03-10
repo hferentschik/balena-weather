@@ -1,0 +1,82 @@
+version: '2'
+
+volumes:
+    influxdb-data:
+    dashboard-data:
+services:
+  influxdb:
+    container_name: influxdb
+    image: influxdb@sha256:73f876e0c3bd02900f829d4884f53fdfffd7098dd572406ba549eed955bf821f
+    restart: always
+    environment:
+      - INFLUXDB_ADMIN_ENABLED=true
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    volumes:
+      - 'influxdb-data:/data'
+    ports:
+      - "8086:8086"
+  mqtt:
+    image: arm64v8/eclipse-mosquitto
+    network_mode: host
+    expose:
+      - "1883"
+    restart: always  
+  telegraf:
+    privileged: true
+    restart: always   
+    build: ./telegraf
+    network_mode: host   
+  dashboard:
+    build: ./dashboard
+    restart: always
+    ports:
+      - "80"
+    volumes:
+      - 'dashboard-data:/data'
+  temperature:
+    build: ./temperature
+    privileged: true
+    network_mode: host
+    restart: always   
+    depends_on:
+     - influxdb
+     - dashboard  
+  windvane:
+    build: ./windvane
+    privileged: true
+    network_mode: host
+    restart: always
+    depends_on:
+     - influxdb
+     - dashboard
+  raingauge:
+    build: ./raingauge
+    privileged: true
+    network_mode: host
+    restart: always   
+    depends_on:
+     - influxdb
+     - dashboard
+  anemometer:
+    build: ./anemometer
+    privileged: true
+    network_mode: host
+    restart: always   
+    depends_on:
+     - influxdb
+     - dashboard
+  humidity:
+    build: ./humidity
+    privileged: true
+    network_mode: host
+    restart: always
+    depends_on:
+     - influxdb
+     - dashboard
+  api:
+    container_name: api
+    build: ./api
+    restart: always
+    expose:
+      - "4567"

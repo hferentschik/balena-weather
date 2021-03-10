@@ -1,0 +1,8 @@
+pigpio
+gpiozero
+rpi.gpio
+spidev
+paho-mqtt
+python-dateutil
+pingouin
+schedule

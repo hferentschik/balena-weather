@@ -1,0 +1,42 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    concurrent-ruby (1.1.8)
+    diff-lcs (1.4.4)
+    ds18b20 (0.2.0)
+    et-orbi (1.2.4)
+      tzinfo
+    fugit (1.4.2)
+      et-orbi (~> 1.1, >= 1.1.8)
+      raabro (~> 1.4)
+    mqtt (0.5.0)
+    raabro (1.4.0)
+    rspec (3.10.0)
+      rspec-core (~> 3.10.0)
+      rspec-expectations (~> 3.10.0)
+      rspec-mocks (~> 3.10.0)
+    rspec-core (3.10.1)
+      rspec-support (~> 3.10.0)
+    rspec-expectations (3.10.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-mocks (3.10.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.10.0)
+    rspec-support (3.10.2)
+    rufus-scheduler (3.7.0)
+      fugit (~> 1.1, >= 1.1.6)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ds18b20
+  mqtt
+  rspec
+  rufus-scheduler
+
+BUNDLED WITH
+   2.1.4

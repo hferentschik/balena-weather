@@ -1,0 +1,5 @@
+gpiozero
+rpi.gpio
+paho-mqtt
+python-dateutil
+schedule

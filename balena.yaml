@@ -1,0 +1,10 @@
+name: "Weather"
+description: "Balena weather station"
+type: "sw.application"
+
+data:
+  applicationConfigVariables:
+    - BALENA_HOST_CONFIG_CONNECTIVITY_CHECK: true
+  defaultDeviceType: "raspberrypi3-64"
+  supportedDeviceTypes:
+    - "raspberrypi3-64"
