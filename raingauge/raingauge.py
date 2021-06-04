@@ -69,6 +69,7 @@ class Raingauge:
             self._level = round(self.BUCKET_CAPACITY * self._count, 1)
 
     def reset(self):
+        print("Resetting timer" + str('{:%Y-%m-%dT%H:%M:%S}'.format(datetime.datetime.now(tzutc()))))
         with self._lock:
             self._count = 0
 
