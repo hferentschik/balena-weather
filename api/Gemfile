@@ -8,5 +8,9 @@ gem 'sinatra-contrib'
 gem 'tzinfo'
 
 group :test, :development do
+  gem 'rack-test'
+  gem 'rake'
   gem 'rspec'
+  gem 'rspec-rails'
+  gem 'rubocop'
 end
