@@ -41,6 +41,7 @@ The application is built using the following container and sensors:
 
 ### UI and API
 
+* [NGINX](./nginx)
 * [API](./api/README.md) - the simplest of all containers in the weather applications.
   A Ruby based [Sinatra](http://sinatrarb.com) used for exposing REST APIs for the weather app.
   Also,one of the simplest Balena containers, since there is no sensor and no special configuration.

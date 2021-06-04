@@ -817,7 +817,9 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "displayName": "temperature",
+          "unit": "celsius"
         },
         "overrides": []
       },
@@ -919,7 +921,7 @@
         {
           "decimals": null,
           "format": "celsius",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -947,7 +949,8 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "displayName": "wind speed"
         },
         "overrides": []
       },
@@ -1078,7 +1081,7 @@
       "fieldConfig": {
         "defaults": {
           "custom": {},
-          "displayName": "Rain in mm/d"
+          "displayName": "rain in mm/d"
         },
         "overrides": []
       },
@@ -1209,7 +1212,8 @@
       "decimals": 0,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "custom": {},
+          "displayName": "humidity"
         },
         "overrides": []
       },
@@ -1332,7 +1336,7 @@
       }
     }
   ],
-  "refresh": "1h",
+  "refresh": "10s",
   "schemaVersion": 26,
   "style": "dark",
   "tags": [],
@@ -1340,7 +1344,7 @@
     "list": []
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {
@@ -1371,5 +1375,5 @@
   "timezone": "",
   "title": "Weather Map",
   "uid": "7wISvn_iz",
-  "version": 25
+  "version": 30
 }
