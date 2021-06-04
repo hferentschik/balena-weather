@@ -28,10 +28,10 @@ services:
     build: ./telegraf
     network_mode: host   
   dashboard:
-    build: ./dashboard
     restart: always
-    ports:
-      - "80"
+    build: ./dashboard
+    expose:
+      - '80'
     volumes:
       - 'dashboard-data:/data'
   temperature:
@@ -80,3 +80,9 @@ services:
     restart: always
     expose:
       - "4567"
+  nginx:
+    build: ./nginx
+    ports:
+      - '80:80'
+    depends_on:
+    - dashboard
