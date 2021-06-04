@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+require 'rubocop/rake_task'
+require 'rspec/core/rake_task'
+
+desc 'Runs app locally'
+task :run do
+  ruby 'server.rb'
+end
+
+RSpec::Core::RakeTask.new :specs do |task|
+  task.pattern = Dir['spec/**/*_spec.rb']
+  task.rspec_opts = ["--tag #{ENV['RSPEC_TAGS']}"] unless ENV['RSPEC_TAGS'].nil?
+end
+
+RuboCop::RakeTask.new
+
+task default: %i[
+  rubocop
+  specs
+]
