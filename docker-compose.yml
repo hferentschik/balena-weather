@@ -17,35 +17,35 @@ services:
     ports:
       - "8086:8086"
   mqtt:
-    image: arm64v8/eclipse-mosquitto:2.0.10
-    network_mode: host
-    expose:
-      - "1883"
-    restart: always  
-  telegraf:
-    privileged: true
-    restart: always   
-    build: ./telegraf
-    network_mode: host   
-  dashboard:
+    build: ./mqtt
     restart: always
+    ports:
+      - "1883"
+  telegraf:
+    build: ./telegraf
+    privileged: true
+    restart: always
+    depends_on:
+      - mqtt
+      - influxdb
+  dashboard:
     build: ./dashboard
+    restart: always
     expose:
       - '80'
     volumes:
       - 'dashboard-data:/data'
+    depends_on:
+      - influxdb
   temperature:
     build: ./temperature
     privileged: true
-    network_mode: host
     restart: always   
     depends_on:
-     - influxdb
-     - dashboard  
+     - mqtt
   windvane:
     build: ./windvane
     privileged: true
-    network_mode: host
     restart: always
     depends_on:
      - influxdb
@@ -53,27 +53,21 @@ services:
   raingauge:
     build: ./raingauge
     privileged: true
-    network_mode: host
     restart: always   
     depends_on:
-     - influxdb
-     - dashboard
+     - mqtt
   anemometer:
     build: ./anemometer
     privileged: true
-    network_mode: host
     restart: always   
     depends_on:
-     - influxdb
-     - dashboard
+     - mqtt
   humidity:
     build: ./humidity
     privileged: true
-    network_mode: host
     restart: always
     depends_on:
-     - influxdb
-     - dashboard
+     - mqtt
   api:
     container_name: api
     build: ./api
