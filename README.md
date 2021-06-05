@@ -32,7 +32,7 @@ The application is built using the following container and sensors:
 
 ### Message queue and database
 
-* Mqtt - [Eclipse Mosquitto](https://hub.docker.com/r/arm64v8/eclipse-mosquitto) container which acts as message broker to which all sensors are sending their data.
+* [Mqtt](./mqtt/README.md) - [Eclipse Mosquitto](https://hub.docker.com/r/arm64v8/eclipse-mosquitto) container which acts as message broker to which all sensors are sending their data.
   The Telegraf container reads from the Mosquitto queue and pushes the metrics into InfluxDB.
 * [Telegraf](./telegraf/README.md) - Part of the [TIG](https://hackmd.io/@lnu-iot/tig-stack) stack to consume and display sensor data.
 * InfluxDB - Time series database storing the sensor data. 

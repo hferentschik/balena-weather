@@ -38,7 +38,7 @@ FakeSensor = Struct.new(:name, :id) do
   end
 end
 
-broker_address = ENV.fetch('MQTT_BROKER', 'localhost')
+broker_address = ENV.fetch('MQTT_BROKER', 'mqtt')
 sample_rate = ENV.fetch('SAMPLE_RATE', 60).to_i
 
 if Dir.exist? '/sys/bus/w1/devices'

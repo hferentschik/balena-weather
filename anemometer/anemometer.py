@@ -73,7 +73,7 @@ class Anemometer:
 
 anemometer = Anemometer()
 
-broker_address = os.environ.get('MQTT_BROKER') or "localhost"
+broker_address = os.environ.get('MQTT_BROKER') or "mqtt"
 client = mqtt.Client("1")
 
 
