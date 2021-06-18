@@ -8,6 +8,21 @@ Raspberry Pi 3                                | Weather station
 :--------------------------------------------:|:-------------------------:
 ![Raspberry Pi 3](./images/raspberry_pi.png)  |  ![Weather Station](./images/weather_station.png)
 
+<!-- MarkdownTOC autolink="true" indent="  " -->
+
+- [Hardware](#hardware)
+- [Components](#components)
+  - [Sensor containers](#sensor-containers)
+  - [Message queue and database](#message-queue-and-database)
+  - [UI and API](#ui-and-api)
+- [Wiring](#wiring)
+- [Development](#development)
+- [Misc](#misc)
+  - [Powering via 5V rail](#powering-via-5v-rail)
+  - [Other](#other)
+
+<!-- /MarkdownTOC -->
+
 ## Hardware
 
 * Raspberry Pi 3
@@ -38,7 +53,7 @@ The application is built using the following container and sensors:
 * InfluxDB - Time series database storing the sensor data. 
   This is the storage component of the [TIG](https://hackmd.io/@lnu-iot/tig-stack) stack.
   It uses a default [InfluxDB DockerHub image](https://hub.docker.com/_/influxdb).
-
+  
 ### UI and API
 
 * [NGINX](./nginx)
@@ -51,6 +66,51 @@ The application is built using the following container and sensors:
 
 The wiring of the main components of the weather station (anemometer, windvane and raingauge) is as per [Build your own weather station](https://projects.raspberrypi.org/en/projects/build-your-own-weather-station).
 
+## Development
+
+### InfluxDB
+
+In order to inspect or modify the data stored in the Influx database you can connect directly to the _influxdb_ container and start the [`influx` CLI](https://docs.influxdata.com/influxdb/v1.8/tools/shell/):
+
+```sh
+$ balena ssh <app-name> influxdb
+? Select a device amazing-smoke (a36de3)
+root@265d8274d16b:/# influx
+Connected to http://localhost:8086 version 1.8.0
+InfluxDB shell version: 1.8.0
+```
+
+In order to get human-readable dates use the `precision rfc3339` command:
+
+```sh
+> precision rfc3339
+> use weather
+Using database weather
+> show measurements
+name: measurements
+name
+----
+humidity
+rain
+temperature
+water-temperature
+wind-direction
+wind-speed
+```
+
+To select the entries of a measurement:
+
+```sh
+> SELECT * FROM "water-temperature"
+2021-06-18T06:05:05Z DS18B20       22.0625            sensors
+...
+```
+
+To delete entries from a measurement use te [`DROP SERIES`](https://docs.influxdata.com/influxdb/v1.8/query_language/manage-database/#drop-series-from-the-index-with-drop-series) query:
+
+```sh
+> DROP SERIES FROM "water-temperature"
+```
 ## Misc
 
 ### Powering via 5V rail
