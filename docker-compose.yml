@@ -6,14 +6,14 @@ volumes:
 services:
   influxdb:
     container_name: influxdb
-    image: influxdb@sha256:73f876e0c3bd02900f829d4884f53fdfffd7098dd572406ba549eed955bf821f
+    image: arm64v8/influxdb:1.8.6
     restart: always
     environment:
       - INFLUXDB_ADMIN_ENABLED=true
       - INFLUXDB_ADMIN_USER=admin
       - INFLUXDB_ADMIN_PASSWORD=admin
     volumes:
-      - 'influxdb-data:/data'
+      - 'influxdb-data:/var/lib/influxdb'
     ports:
       - "8086:8086"
   mqtt:
