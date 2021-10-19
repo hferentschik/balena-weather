@@ -1,4 +1,4 @@
-name: "Balena Weather Station"
+name: "balena-weather-station"
 description: "Balena multi-container weather station with anemometer, raingauge, windvane and more."
 type: "sw.application"
 joinable: false
