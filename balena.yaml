@@ -1,7 +1,12 @@
 name: "Weather"
-description: "Balena weather station"
+description: "Balena based weather station"
 type: "sw.application"
-
+joinable: false
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: "https://github.com/hferentschik/balena-weather"
 data:
   applicationConfigVariables:
     - BALENA_HOST_CONFIG_CONNECTIVITY_CHECK: true
