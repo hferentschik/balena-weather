@@ -1,5 +1,5 @@
-name: "Weather"
-description: "Balena based weather station"
+name: "Balena Weather Station"
+description: "Balena multi-container weather station with anemometer, raingauge, windvane and more."
 type: "sw.application"
 joinable: false
 assets:
@@ -7,6 +7,10 @@ assets:
     type: blob.asset
     data:
       url: "https://github.com/hferentschik/balena-weather"
+  logo:
+    type: blob.asset
+    data:
+      url: "https://raw.githubusercontent.com/hferentschik/balena-weather/master/logo.png" 
 data:
   applicationConfigVariables:
     - BALENA_HOST_CONFIG_CONNECTIVITY_CHECK: true
