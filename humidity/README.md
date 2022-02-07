@@ -8,16 +8,16 @@ The sensor itself uses the [I2C](https://en.wikipedia.org/wiki/I%C2%B2C).
 ## Wiring
 
 Ground and power of the SHT-30 are connected to ground and 3V on the Pi respectively.
-The SCK (yellow) of the sensor connects to SCL1 (GPIO 3) of the PI and DATA (blue) to SDA1 (GPIO 2). 
+The SCK (yellow) of the sensor connects to SCL1 (GPIO 3) of the PI and DATA (blue) to SDA1 (GPIO 2).
 
-## Balena 
+## Balena
 
 To enable the I2C overlay for the PI using [Balena](https://www.balena.io/docs/reference/OS/advanced/), _"i2c_arm=on"_ must be specified as [device tree (DT)](https://www.raspberrypi.org/documentation/configuration/device-tree.md) parameter.
 
 ## Development
 
 In order to test the code easily, the container uses a trick to allow using PyCharm locally and execute the code in the remote container.
-For that the container needs to open an SSH port. 
+For that the container needs to open an SSH port.
 This can be achieved setting the device service variable `START_SSHD=1`.
 This will start sshd and allow PyCharm to sue the container as a remote execution environment.
 
