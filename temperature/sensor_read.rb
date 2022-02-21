@@ -61,15 +61,15 @@ scheduler.every sample_rate, first: :now do
       :value => measurement,
       :sensor => 'DS18B20'
     }
-  }  
+  }
 
   json_payload = JSON[payload]
   logger.info "new measurement: #{json_payload}"
   begin
-   MQTT::Client.connect(broker_address) do |c|
+   MQTT::Client.connect(:host => broker_address, :username => ENV['MQTT_USER'], :password => ENV['MQTT_PASSWORD'],) do |c|
     c.publish('sensors', json_payload)
    end
-  rescue Exception => e 
+  rescue Exception => e
     logger.info "unable to connect or publish to MQTT client: #{e.message}"
   end
 end
