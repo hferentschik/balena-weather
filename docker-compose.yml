@@ -40,7 +40,7 @@ services:
   temperature:
     build: ./temperature
     privileged: true
-    restart: always   
+    restart: always
     depends_on:
      - mqtt
   windvane:
@@ -48,18 +48,17 @@ services:
     privileged: true
     restart: always
     depends_on:
-     - influxdb
-     - dashboard
+     - mqtt
   raingauge:
     build: ./raingauge
     privileged: true
-    restart: always   
+    restart: always
     depends_on:
      - mqtt
   anemometer:
     build: ./anemometer
     privileged: true
-    restart: always   
+    restart: always
     depends_on:
      - mqtt
   humidity:

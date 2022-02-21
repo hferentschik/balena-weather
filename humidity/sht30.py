@@ -77,7 +77,8 @@ sht30 = Sht30()
 
 broker_address = os.environ.get('MQTT_BROKER') or "mqtt"
 client = mqtt.Client("1")
-
+if "MQTT_USER" in os.environ and "MQTT_PASSWORD" in os.environ:
+    client.username_pw_set(username=os.environ.get('MQTT_USER'),password=os.environ.get('MQTT_PASSWORD'))
 
 def record():
     client.connect(broker_address)

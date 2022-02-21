@@ -1,4 +1,4 @@
-FROM arm64v8/telegraf:1.15.4
+FROM telegraf:1.19
 
 RUN apt-get update \
  && apt-get install -y vim netcat \
@@ -6,3 +6,4 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 COPY telegraf.conf /etc/telegraf/telegraf.conf
+COPY entrypoint.sh /entrypoint.sh
