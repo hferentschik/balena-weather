@@ -14,7 +14,7 @@ import paho.mqtt.client as mqtt
 from dateutil.tz import tzutc
 
 
-RECORDING_INTERVAL = 10
+RECORDING_INTERVAL = 1800
 
 
 def run_continuously(interval=1):
