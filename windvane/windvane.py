@@ -14,7 +14,7 @@ from dateutil.tz import *
 from gpiozero import MCP3008
 
 
-RECORDING_INTERVAL = 15
+RECORDING_INTERVAL = 600
 
 
 def run_continuously(interval=1):
