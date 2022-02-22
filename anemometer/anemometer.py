@@ -13,7 +13,8 @@ import paho.mqtt.client as mqtt
 from dateutil.tz import tzutc
 from gpiozero import Button
 
-RECORDING_INTERVAL = 90
+RECORDING_INTERVAL = os.getenv('SAMPLE_RATE', 900)
+print("SAMPLE_RATE set to " + str(RECORDING_INTERVAL))
 
 
 def run_continuously(interval=1):

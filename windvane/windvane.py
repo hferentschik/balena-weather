@@ -14,7 +14,8 @@ from dateutil.tz import *
 from gpiozero import MCP3008
 
 
-RECORDING_INTERVAL = 600
+RECORDING_INTERVAL = os.getenv('SAMPLE_RATE', 900)
+print("SAMPLE_RATE set to " + str(RECORDING_INTERVAL))
 
 
 def run_continuously(interval=1):

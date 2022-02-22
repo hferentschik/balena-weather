@@ -47,6 +47,12 @@ The application is built using the following container and sensors:
 - [Temperature](/temperature/README.md) - Additional DS18B20 temperature sensor.
 - [Windvane](/windvane/README.md) - Windvane sensor of the weather station.
 
+The default sample rate for each of the containers is 15 minutes.
+You can define a _SAMPLE_RATE_ device variable for any of these containers to change the sample rate.
+The sample rate needs to be specified in seconds.
+
+![Balena Device Variables](./images/device-variables.png)
+
 ### Message queue and database
 
 - [Mqtt](./mqtt/README.md) - [Eclipse Mosquitto](https://hub.docker.com/r/arm64v8/eclipse-mosquitto) container which acts as message broker to which all sensors are sending their data.
