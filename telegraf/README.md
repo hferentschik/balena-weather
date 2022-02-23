@@ -21,6 +21,6 @@ echo 'mymeasurement,my_tag_key=mytagvalue my_field="my field value"' | nc localh
 
 ## References
 
-* Telegraf [configuration](https://github.com/influxdata/telegraf/blob/master/docs/CONFIGURATION.md) 
+* Telegraf [configuration](https://github.com/influxdata/telegraf/blob/master/docs/CONFIGURATION.md)
 * Telegraf [troubleshooting](https://docs.influxdata.com/telegraf/v1.17/administration/troubleshooting/)
 * Telegraf [JSON input data format](https://docs.influxdata.com/telegraf/v1.18/data_formats/input/json/)
