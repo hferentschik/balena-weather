@@ -1,6 +1,6 @@
 # Balena Weather
 
-A weather station based on the Raspberry Pi project [Build your own weather station](https://projects.raspberrypi.org/en/projects/build-your-own-weather-station), implemented as a [Balena](https://www.balena.io/) multi container application.
+A Raspberry Pi weather station, implemented as [Balena](https://www.balena.io/) multi-container application.
 
 ![Grafana Dash](./images/dash.png)
 
@@ -8,38 +8,70 @@ Raspberry Pi 3                                | Weather station
 :--------------------------------------------:|:-------------------------:
 ![Raspberry Pi 3](./images/raspberry_pi.png)  |  ![Weather Station](./images/weather_station.png)
 
-<!-- MarkdownTOC autolink="true" indent="  " -->
+<!-- MarkdownTOC levels="2,3,4" autolink="true" indent="  " -->
 
 - [Balena Weather](#balena-weather)
+  - [Welcome to Balena Weather](#welcome-to-balena-weather)
   - [Hardware](#hardware)
-  - [Components](#components)
-    - [Sensor containers](#sensor-containers)
+    - [Wiring](#wiring)
+  - [Services](#services)
+    - [Sensors](#sensors)
     - [Message queue and database](#message-queue-and-database)
     - [UI and API](#ui-and-api)
-  - [Wiring](#wiring)
-  - [Development](#development)
-    - [InfluxDB](#influxdb)
+    - [DT parameters and overlays](#dt-parameters-and-overlays)
   - [Misc](#misc)
+    - [InfluxDB](#influxdb)
     - [Powering via 5V rail](#powering-via-5v-rail)
-    - [Other](#other)
+    - [Other resources](#other-resources)
 
 <!-- /MarkdownTOC -->
 
+## Welcome to Balena Weather
+
+This project is inspired by [Build your own weather station](https://projects.raspberrypi.org/en/projects/build-your-own-weather-station/0) from _projects.raspberrypi.org_.
+The following sections describe the hardware, wiring and configuration of Balena Weather.
+
 ## Hardware
 
-- Raspberry Pi 3
- [Prototyping HAT for Raspberry Pi](https://www.robotshop.com/en/prototyping-hat-raspberry-pi-b-2ba3b.html)
-- [Sparkfun Weather Meter Kit](https://www.sparkfun.com/products/15901)
-- One MCP3008 (8-Channel 10-Bit ADC With SPI Interface)
-- [SHT-30](https://www.adafruit.com/product/4099) humidity/temperature sensor
-- Waterproof [DS18B20](https://www.amazon.com/Eiechip-Waterproof-Temperature-Thermometer-Resistance/dp/B07MB1J43W/) temperature sensor
-- Two 4.7k resistors
+Let's start with the hardware used for this project.
 
-## Components
+- 1 [Raspberry Pi 3](https://www.raspberrypi.com/products/raspberry-pi-3-model-b/) - the heart of the weather station.
+    Balena Weather is also compatible with the Raspberry Pi 4.
+- 1 [Prototyping HAT for Raspberry Pi](https://www.robotshop.com/en/prototyping-hat-raspberry-pi-b-2ba3b.html) - my aim was to build a permanent weather station (see picture above).
+    For this reason I opted for the Prototyping HAT and soldering the components together.
+    You can of course also use a breadboard for a less permanent solution.
+- 1 [Sparkfun Weather Meter Kit](https://www.sparkfun.com/products/15901) - the main weather station components including anemometer, windvane and raingauge.
+- 1 [MCP3008](https://www.microchip.com/en-us/product/MCP3008) - a 8-channel, 10-bit ADC with SPI interface.
+    It is used to convert the analog voltage provided by the windvane's into a digital value.
+- 1 [SHT-30](https://www.adafruit.com/product/4099) - a wheater proof humidity sensor.
+    The SHT-30 also includes a temperature sensor.
+    The temperature measures by the SHT-30 is also stored in InfluxDB, however, the default Grafana dashboard does not include its value.
+- 1 [DS18B20](https://www.amazon.com/Eiechip-Waterproof-Temperature-Thermometer-Resistance/dp/B07MB1J43W/) - standard 1-wire bus water proof temperature sensor.
+- 2 4.7k&#8486; resistors - used for the vindvane's voltage divider circuit as well as a pull up resistor for the temperature sensor.
+- 1 [Raspberry Pi IP54 Outdoor Project Enclosure](https://sixfab.com/product/raspberry-pi-ip54-outdoor-iot-project-enclosure/) - a weather proof enclosure for the Raspberry Pi.
 
-The application is built using the following container and sensors:
+The folling paragraph shows how the components are connected schematically.
 
-### Sensor containers
+### Wiring
+
+The following diagram shows the schematics of Balena Weather.
+The anemometer, windvane and raingauge are symbolised by their main electric component.
+
+**NOTE**: The Sparkfun Weather station comes per default with RJ11 connectors which has 6 pins.
+The middle four pins are connected, but only two cables are used.
+Refer to the [Sparkfun Weather Meter Kit manual](https://cdn.sparkfun.com/assets/d/1/e/0/6/DS-15901-Weather_Meter.pdf) to see which cables are relevant for each of the components.
+
+![Balena Weather Wiring](./images/balena_weather_bb.png)
+
+## Services
+
+On the software side Balena Weather is built as Balena [multi container application](https://www.balena.io/docs/learn/develop/multicontainer/).
+The services comprising Balena Weather are defined in [docker-compose.yml](./docker-compose.yml).
+
+The following paragraphs describe the various services in more detail.
+Each of the service build subdirectory contains a README as well providing additional information.
+
+### Sensors
 
 - [Anemometer](./anemometer/README.md) - Anemometer (wind speed) sensor of the weather station.
 - [Humidity](./humidity/README.md) - Humidity and temperature sensor SHT-30.
@@ -50,6 +82,8 @@ The application is built using the following container and sensors:
 The default sample rate for each of the containers is 15 minutes.
 You can define a _SAMPLE_RATE_ device variable for any of these containers to change the sample rate.
 The sample rate needs to be specified in seconds.
+Each sensor service also accepts values for _MQTT_USER_ and _MQTT_PASSWORD_ to authenticate against the MQTT message broker.
+If MQTT authentication is used the same username and password needs to be specified to all sensor containers, as well as the MQTT container itself.
 
 ![Balena Device Variables](./images/device-variables.png)
 
@@ -64,17 +98,15 @@ The sample rate needs to be specified in seconds.
 
 ### UI and API
 
-- [NGINX](./nginx)
-- [API](./api/README.md) - the simplest of all containers in the weather applications.
-  A Ruby based [Sinatra](http://sinatrarb.com) used for exposing REST APIs for the weather app.
-  Also,one of the simplest Balena containers, since there is no sensor and no special configuration.
+- [NGINX](./nginx) - NGINX listening on port 80 and acting as reverse proxy.
+- [API](./api/README.md) - A Ruby based [Sinatra](http://sinatrarb.com) used for exposing REST APIs for the weather app.
 - [Grafana Dashboard](./dashboard/README.md) - the Grafana dashboard displaying all weather data.
 
-## Wiring
+### DT parameters and overlays
 
-The wiring of the main components of the weather station (anemometer, windvane and raingauge) is as per [Build your own weather station](https://projects.raspberrypi.org/en/projects/build-your-own-weather-station).
+The device configuration needs to enable the _w1-gpio_ overlay and specify the DT parameters _"i2c_arm=on","spi=on"_.
 
-## Development
+## Misc
 
 ### InfluxDB
 
@@ -120,15 +152,15 @@ To delete entries from a measurement use te [`DROP SERIES`](https://docs.influxd
 > DROP SERIES FROM "water-temperature"
 ```
 
-## Misc
-
 ### Powering via 5V rail
+
+In my case I decided to power the Raspberry Pi via the 5V power rail.
+The following links provide information on how to do so.
 
 - [Raspberry Pi Fuse](https://www.petervis.com/Raspberry_PI/Raspberry_Pi_Dead/Raspberry_Pi_Fuse.html)
 - [Power requirements of the Pi](https://raspberrypi.stackexchange.com/questions/51615/raspberry-pi-power-limitations)
 
-### Other
+### Other resources
 
 - [Balena Masterclass](https://github.com/balena-io/balena-cli-masterclass/blob/master/README.md)
-- [Sparkfun Weather Meter Kit Specs](https://cdn.sparkfun.com/assets/d/1/e/0/6/DS-15901-Weather_Meter.pdf)
 - [Pinout](https://pinout.xyz/)

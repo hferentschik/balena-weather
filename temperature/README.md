@@ -20,4 +20,3 @@ To use the 1-wire protocol the [w1-gpio DT overlay](https://www.balena.io/docs/l
 ## Misc
 
 * [DS18B20 Spec](https://datasheets.maximintegrated.com/en/ds/DS18B20.pdf)
-

@@ -21,7 +21,7 @@ For that the container needs to open an SSH port.
 This can be achieved setting the device service variable `START_SSHD=1`.
 This will start sshd and allow PyCharm to sue the container as a remote execution environment.
 
-*NOTE*: This is a development trick/hack.
+**NOTE**: This is a development trick/hack.
 In a production environment the sshd config should be removed.
 
 ## Misc

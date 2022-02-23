@@ -14,7 +14,7 @@ interrupt input.
 ## Development
 
 In order to test the code easily, the container uses a trick to allow using PyCharm locally and execute the code in the remote container.
-For that the container needs to open an SSH port. 
+For that the container needs to open an SSH port.
 This can be achieved setting the device service variable `START_SSHD=1`.
 This will start sshd and allow PyCharm to sue the container as a remote execution environment.
 
