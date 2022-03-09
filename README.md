@@ -2,6 +2,8 @@
 
 A Raspberry Pi weather station, implemented as [Balena](https://www.balena.io/) multi-container application.
 
+[![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/hferentschik/balena-weather)
+
 ![Grafana Dash](./images/dash.png)
 
 Raspberry Pi 3                                | Weather station
@@ -85,7 +87,10 @@ The sample rate needs to be specified in seconds.
 Each sensor service also accepts values for _MQTT_USER_ and _MQTT_PASSWORD_ to authenticate against the MQTT message broker.
 If MQTT authentication is used the same username and password needs to be specified to all sensor containers, as well as the MQTT container itself.
 
-![Balena Device Variables](./images/device-variables.png)
+![Balena Device Variables](./images/device_variables.png)
+
+The variables _LATITUDE_, _LONGITUDE_ and _TIMEZONE_ affect the _api_ service.
+For more information refer to the _api_ [README](./api/README.md).
 
 ### Message queue and database
 
@@ -104,7 +109,9 @@ If MQTT authentication is used the same username and password needs to be specif
 
 ### DT parameters and overlays
 
-The device configuration needs to enable the _w1-gpio_ overlay and specify the DT parameters _"i2c_arm=on","spi=on"_.
+For the sensors to work, the Balena [device or fleet configuration](https://github.com/balena-io/balena-fleet-management-masterclass#3-configuration) needs to enable the _w1-gpio_ overlay as well as set the DT parameters _"i2c_arm=on","spi=on"_.
+
+![Balena Device Configuration](./images/device_configuration.png)
 
 ## Misc
 
