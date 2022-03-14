@@ -1,23 +1,20 @@
 # Telegraf
 
 This container runs [Telegraf](https://www.influxdata.com/time-series-platform/telegraf) consuming [MQTT](https://mqtt.org/) messages posted by the various sensors and pushing the data into [InfluxDB](https://www.influxdata.com/).
-The [Dockerfile](./Dockerfile) adds `netcat` which can be useful for debugging.
-In its default configuration Telegraf just ignores ill formatted MQTT messages without logging anything.
-This makes it extremely hard to debug problems in the input and output of Telegraf.
-For this reason a custom [telegraf.conf](./telegraf.conf) is added which adds for example the printer processor.
-The configuration also shows how to enable the UDP output, and the socket listener input.
-In combination these in- and output plugins can be used to test the Telegraf configuration in isolation on the container itself using `netcat`.
 
 ## Testing
 
-With the socket listener input enabled custom measurements can be passed to Telegraf using `netcat`:
+On your local machine you can replicate the MQTT -> Telegraf -> InfluxDB setup by running the following commands from within the _telegraf_ subdirectory:
 
 ```sh
-balena ssh <device-uuid> telegraf
-nc -lup 8089
-
-echo 'mymeasurement,my_tag_key=mytagvalue my_field="my field value"' | nc localhost 8094
+docker build  . -t telegraf
+docker network create telegraf
+docker run -it -p 1883:1883 -p 9001:9001 --name mqtt -v $PWD/../mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf --network telegraf  eclipse-mosquitto
+docker run -p 8086:8086 --name influxdb -v influxdb:/var/lib/influxdb --network telegraf influxdb
+docker run --network telegraf telegraf
 ```
+
+Now you can now connect to the MQTT queue using [MQTT Explorer](http://mqtt-explorer.com/) and send test messages.
 
 ## References
 

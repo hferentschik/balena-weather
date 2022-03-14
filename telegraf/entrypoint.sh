@@ -6,7 +6,7 @@ if [[ -z "${MQTT_USER}" || -z "${MQTT_PASSWORD}" ]]; then
   echo "Using un-authenticated configuration"
 else
   echo "Configuring username/password authentication"
-  sed -i -e 's/^    # username =.*/    username = \"'"${MQTT_USER}"'\"/g' -e 's/^    # password =.*/    password = \"'"${MQTT_PASSWORD}"'\"/g' /etc/telegraf/telegraf.conf
+  sed -i -e 's/^  # username =.*/  username = \"'"${MQTT_USER}"'\"/g' -e 's/^  # password =.*/  password = \"'"${MQTT_PASSWORD}"'\"/g' /etc/telegraf/telegraf.d/*.conf
 fi
 
 if [ "${1:0:1}" = '-' ]; then
