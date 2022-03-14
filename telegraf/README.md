@@ -9,12 +9,20 @@ On your local machine you can replicate the MQTT -> Telegraf -> InfluxDB setup b
 ```sh
 docker build  . -t telegraf
 docker network create telegraf
-docker run -it -p 1883:1883 -p 9001:9001 --name mqtt -v $PWD/../mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf --network telegraf  eclipse-mosquitto
-docker run -p 8086:8086 --name influxdb -v influxdb:/var/lib/influxdb --network telegraf influxdb
+docker run -d --rm -p 1883:1883 -p 9001:9001 --name mqtt -v $PWD/../mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf --network telegraf  eclipse-mosquitto
+docker run -d --rm -p 8086:8086 --name influxdb -v influxdb:/var/lib/influxdb --network telegraf influxdb:1.8
 docker run --network telegraf telegraf
 ```
 
 Now you can now connect to the MQTT queue using [MQTT Explorer](http://mqtt-explorer.com/) and send test messages.
+
+To cleanup:
+
+```sh
+docker stop mqtt
+docker stop influxdb
+docker network rm telegraf
+```
 
 ## References
 
