@@ -67,6 +67,11 @@ services:
     restart: always
     depends_on:
      - mqtt
+  solar:
+    image: hferentschik/solar-edge:0.0.1
+    restart: always
+    depends_on:
+     - mqtt
   api:
     container_name: api
     build: ./api
