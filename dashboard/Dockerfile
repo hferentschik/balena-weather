@@ -7,8 +7,12 @@ RUN apt-get update \
 
 # Plugin install
 COPY marcusolsson-json-datasource-1.1.0.zip /marcusolsson-json-datasource-1.1.0.zip
-RUN mkdir -p /usr/share/grafana/data/plugins
-RUN unzip /marcusolsson-json-datasource-1.1.0.zip -d /usr/share/grafana/data/plugins
+COPY fetzerch-sunandmoon-datasource-0.2.1.zip /fetzerch-sunandmoon-datasource-0.2.1.zip
+RUN mkdir -p /usr/share/grafana/data/plugins \
+ && unzip /marcusolsson-json-datasource-1.1.0.zip -d /usr/share/grafana/data/plugins \
+ && rm /marcusolsson-json-datasource-1.1.0.zip \
+ && unzip /fetzerch-sunandmoon-datasource-0.2.1.zip -d /usr/share/grafana/data/plugins \
+ && rm /fetzerch-sunandmoon-datasource-0.2.1.zip
 
 # Grafana config
 COPY ./custom.ini /usr/share/grafana/conf/
