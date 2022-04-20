@@ -25,6 +25,16 @@ _LATITUDE_ the latitude value for the sunrise/sunset location, _LONGITUDE_ the l
 
 This container is implemented in Ruby based on a simple [Sinatra](http://sinatrarb.com/) app for serving the custom JSON APIs.
 
+## Development
+
+To run the API server locally, run:
+
+```sh
+bundle exec rake run
+```
+
+Copy _.template.env_ to _.env_ and adjust _LATITUDE_, _LONGITUDE_ and _TIMEZONE_ to match your location.
+
 ## Misc
 
 * [Ruby API with Sinatra](https://x-team.com/blog/how-to-create-a-ruby-api-with-sinatra/)

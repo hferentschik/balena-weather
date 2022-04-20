@@ -8,9 +8,11 @@ gem 'sinatra-contrib'
 gem 'tzinfo'
 
 group :test, :development do
+  gem 'dotenv'
   gem 'rack-test'
   gem 'rake'
   gem 'rspec'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'solargraph'
 end
