@@ -24,6 +24,50 @@ docker stop influxdb
 docker network rm telegraf
 ```
 
+### InfluxDB
+
+In order to inspect or modify the data stored in the Influx database you can connect directly to the _influxdb_ container and start the [`influx` CLI](https://docs.influxdata.com/influxdb/v1.8/tools/shell/):
+
+```sh
+$ balena ssh <app-name> influxdb
+? Select a device amazing-smoke (a36de3)
+root@265d8274d16b:/# influx
+Connected to http://localhost:8086 version 1.8.0
+InfluxDB shell version: 1.8.0
+```
+
+In order to get human-readable dates use the `precision rfc3339` command:
+
+```sh
+> precision rfc3339
+> use weather
+Using database weather
+> show measurements
+name: measurements
+name
+----
+humidity
+rain
+temperature
+water-temperature
+wind-direction
+wind-speed
+```
+
+To select the entries of a measurement:
+
+```sh
+> SELECT * FROM "water-temperature"
+2021-06-18T06:05:05Z DS18B20       22.0625            sensors
+...
+```
+
+To delete entries from a measurement use te [`DROP SERIES`](https://docs.influxdata.com/influxdb/v1.8/query_language/manage-database/#drop-series-from-the-index-with-drop-series) query:
+
+```sh
+> DROP SERIES FROM "water-temperature"
+```
+
 ## References
 
 * Telegraf [configuration](https://github.com/influxdata/telegraf/blob/master/docs/CONFIGURATION.md)
