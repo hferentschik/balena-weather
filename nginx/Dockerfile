@@ -1,4 +1,4 @@
-FROM arm32v7/nginx:1.19
+FROM arm64v8/nginx:1.21
 
 # Remove default sites
 RUN rm -rf /usr/share/nginx/html/*

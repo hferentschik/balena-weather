@@ -1,0 +1,34 @@
+name: Balena Weather Station CI
+on: [pull_request]
+jobs:
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: lint
+        uses: nosborn/github-action-markdown-cli@v3.0.1
+        with:
+          files: '**/*.md'
+          config_file: .markdownlint.json
+  dockerfile-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: lint
+        uses: ghe-actions/dockerfile-validator@v1
+        with:
+          dockerfile: '**/Dockerfile'
+          lint: 'hadolint'
+  balena-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: build
+        uses: NebraLtd/balena-cli-action@v13.4.0
+        if: success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_command: "build --deviceType raspberrypi3 --arch aarch64 --emulated"

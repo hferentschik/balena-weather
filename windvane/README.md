@@ -6,7 +6,7 @@ It is the most complex sensor in terms of wiring this it makes use of the MCP300
 
 This container is using Python and the [gpiozero](https://gpiozero.readthedocs.io/en/stable/) library.
 
-The wind direction is determined using a voltage divider. 
+The wind direction is determined using a voltage divider.
 From the [data sheet](https://cdn.sparkfun.com/assets/d/1/e/0/6/DS-15901-Weather_Meter.pdf) of the weather station:
 
 > The wind vane is the most complicated of the three sensors. It has eight switches, each connected to a different resistor.
