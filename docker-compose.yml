@@ -31,7 +31,7 @@ services:
   dashboard:
     build: ./dashboard
     restart: always
-    expose:
+    ports:
       - '80'
     volumes:
       - 'dashboard-data:/data'
@@ -78,9 +78,3 @@ services:
     restart: always
     expose:
       - "4567"
-  nginx:
-    build: ./nginx
-    ports:
-      - '80:80'
-    depends_on:
-    - dashboard
