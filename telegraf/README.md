@@ -155,3 +155,4 @@ To delete entries from a measurement use te [`DROP SERIES`](https://docs.influxd
 * Telegraf [configuration](https://github.com/influxdata/telegraf/blob/master/docs/CONFIGURATION.md)
 * Telegraf [troubleshooting](https://docs.influxdata.com/telegraf/v1.17/administration/troubleshooting/)
 * Telegraf [JSON input data format](https://docs.influxdata.com/telegraf/v1.18/data_formats/input/json/)
+* [plugins](https://archive.docs.influxdata.com/telegraf/v1.8/plugins)
