@@ -14,6 +14,8 @@ LONGITUDE = ENV.fetch('LONGITUDE', 135.00)
 
 TIMEZONE = ENV.fetch('TIMEZONE', 'GMT')
 
+HTTParty::Basement.default_options.update(verify: false)
+
 # The main App class
 class App < Sinatra::Base
   register Sinatra::Namespace
