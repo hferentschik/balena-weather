@@ -5,7 +5,7 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-RUN gem install bundler --without test
+RUN gem install bundler -v 2.3.27 --without test
 
 WORKDIR /app
 
